@@ -1,12 +1,15 @@
 const mongoose = require('mongoose')
 const redis = require('redis')
 const util = require('util')
+const key = require('../config/keys')
 
-const redisUrl = 'redis-14896.c264.ap-south-1-1.ec2.cloud.redislabs.com'
-const client = redis.createClient(14896, redisUrl);
-client.auth('4lnkPnuTdzq8LuDMTZSR1SyO7mcHxIPm', () => {
-  console.log('connected to redis')
-})
+//! for dev
+// const resdisUrl = 'redis-14896.c264.ap-south-1-1.ec2.cloud.redislabs.com'
+// const client = redis.createClient(14896, keys.redisUrl);
+// client.auth('4lnkPnuTdzq8LuDMTZSR1SyO7mcHxIPm', () => {
+//   console.log('connected to redis')
+// })
+const client = redis.createClient(key.redisUrl);
 client.hget = util.promisify(client.hget)
 
 mongoose.Query.prototype.cache = function (options = {}) {
